@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js">
+    </script>
+    <script>
+      $(document).ready(function(){
+
+      })
+    </script>
+  </head>
+  <body>
+    <%- JSON.stringify(messages) %> 
+    <% if(messages.form_validation) { %>
+        <% for (var x of messages.form_validation) { %>
+        <h3><%= x %></h3>
+        <% } %>
+    <% } %>
+    <h1> The Dojo Message Board </h1>
+    <form action='/messages' method=POST>
+        Name:<input type=text name=name>
+        Message:<textarea name=content></textarea>
+        <input type=submit value='Post Message'>
+    </form>
+    <% for(var i = 0; i < messages.length; i++) { %>
+        <h3>Name: <%= messages[i].name %> </h3>
+        <h3>Message: <%= messages[i].content %> </h3>
+        <% for(var j = 0; j< messages[i].comments.length; j++) { %>
+        <h5>Name: <%=messages[i].comments[j].name %></h5>
+        <h5>Comment: <%=messages[i].comments[j].content %></h5>
+        <% } %>
+        <form action='/comments' method='POST'>
+            Name:<input type='text' name='name'>
+            Comment:<textarea name='content'></textarea>
+            <input type='hidden' name='msg_id' value='<%=messages[i].message_id%>'>
+            <input type='submit' value='Post Comment'>
+        </form>
+
+    <% } %>
+
+    
+  </body>
+</html>
